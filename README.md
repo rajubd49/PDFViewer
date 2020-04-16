@@ -9,7 +9,7 @@ The preferred way of installing is via the [Swift Package Manager](https://swift
 
 1. In Xcode, open your project and navigate to **File** → **Swift Packages** → **Add Package Dependency...**
 2. Paste the repository URL (`https://github.com/rajubd49/PDFViewer.git`) and click **Next**.
-3. For **Rules**, select **Branch** (with branch set to `1.4.2` ).
+3. For **Rules**, select **Branch** (with branch set to `1.0.0` ).
 4. Click **Finish**.
 
 ## Excample code
