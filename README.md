@@ -21,7 +21,6 @@ struct ContentView: View, DownloadManagerDelegate {
     
     @State private var viewLocalPDF = false
     @State private var viewRemotePDF = false
-    @State var loadingView: Bool = false
     @State var loadingPDF: Bool = false
     @State var progressValue: Float = 0.0
     @ObservedObject var downloadManager = DownloadManager.shared()
@@ -44,7 +43,6 @@ struct ContentView: View, DownloadManagerDelegate {
                         if self.fileExistsInDirectory() {
                             self.viewRemotePDF = true
                         } else {
-                            self.loadingView = true
                             self.downloadPDF(pdfUrlString: self.pdfUrlString)
                         }
                     }
@@ -86,7 +84,6 @@ struct ContentView: View, DownloadManagerDelegate {
         if success {
             loadingPDF = false
             viewRemotePDF = true
-            loadingView = false
         }
     }
     
