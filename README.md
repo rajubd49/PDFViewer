@@ -62,12 +62,9 @@ struct ContentView: View, DownloadManagerDelegate {
             let url = cachesDirectoryUrl.appendingPathComponent(lastPathComponent)
             if FileManager.default.fileExists(atPath: url.path) {
                 return true
-            } else {
-                return false
             }
-        } else {
-            return false
         }
+        return false
     }
     
     private func downloadPDF(pdfUrlString: String) {
