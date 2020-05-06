@@ -21,13 +21,12 @@ struct ContentView: View, DownloadManagerDelegate {
     
     @State private var viewLocalPDF = false
     @State private var viewRemotePDF = false
-    @State var loadingPDF: Bool = false
-    @State var progressValue: Float = 0.0
+    @State private var loadingPDF: Bool = false
+    @State private var progressValue: Float = 0.0
     @ObservedObject var downloadManager = DownloadManager.shared()
     
     let pdfName = "sample"
-    let pdfUrlString = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-    
+    let pdfUrlString = "http://www.africau.edu/images/default/sample.pdf"
 
     var body: some View {
         NavigationView {
@@ -35,7 +34,7 @@ struct ContentView: View, DownloadManagerDelegate {
                 VStack {
                     NavigationLink(destination: PDFViewer(pdfName: pdfName), isActive: $viewLocalPDF) {
                         Button("View Local PDF"){
-                            self.viewLocalPDF.toggle()
+                            self.viewLocalPDF = true
                         }
                         .padding(.bottom, 20)
                     }
@@ -46,7 +45,6 @@ struct ContentView: View, DownloadManagerDelegate {
                             self.downloadPDF(pdfUrlString: self.pdfUrlString)
                         }
                     }
-                    
                     if self.viewRemotePDF {
                         NavigationLink(destination: PDFViewer(pdfUrlString: self.pdfUrlString), isActive: self.$viewRemotePDF) {
                             EmptyView()
@@ -55,12 +53,11 @@ struct ContentView: View, DownloadManagerDelegate {
                 }
                 ProgressView(value: self.$progressValue, visible: self.$loadingPDF)
             }
-            
             .navigationBarTitle("PDFViewer", displayMode: .inline)
         }
     }
     
-    func fileExistsInDirectory() -> Bool {
+    private func fileExistsInDirectory() -> Bool {
         if let cachesDirectoryUrl =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first, let lastPathComponent = URL(string: self.pdfUrlString)?.lastPathComponent {
             let url = cachesDirectoryUrl.appendingPathComponent(lastPathComponent)
             if FileManager.default.fileExists(atPath: url.path) {
@@ -73,28 +70,28 @@ struct ContentView: View, DownloadManagerDelegate {
         }
     }
     
-    func downloadPDF(pdfUrlString: String) {
+    private func downloadPDF(pdfUrlString: String) {
         guard let url = URL(string: pdfUrlString) else { return }
         downloadManager.delegate = self
         downloadManager.downloadFile(url: url)
     }
     
     //MARK: DownloadManagerDelegate
-    public func downloadDidFinished(success: Bool) {
+    func downloadDidFinished(success: Bool) {
         if success {
             loadingPDF = false
             viewRemotePDF = true
         }
     }
     
-    public func downloadDidFailed(failure: Bool) {
+    func downloadDidFailed(failure: Bool) {
         if failure {
             loadingPDF = false
             print("PDFCatalogueView: Download failure")
         }
     }
     
-    public func downloadInProgress(progress: Float, totalBytesWritten: Float, totalBytesExpectedToWrite: Float) {
+    func downloadInProgress(progress: Float, totalBytesWritten: Float, totalBytesExpectedToWrite: Float) {
         loadingPDF = true
         progressValue = progress
     }
