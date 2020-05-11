@@ -101,7 +101,7 @@ struct ContentView: View, DownloadManagerDelegate {
 * Download PDF from remote url and save in cache directory to view PDF
 * PDF thumbnail view show
 * PDF view page change notification 
-* PDF view annotation hit otification
+* PDF view annotation hit notification
 * Share PDF file
 
 ## Author
