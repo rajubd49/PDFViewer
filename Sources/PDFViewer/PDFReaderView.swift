@@ -80,6 +80,7 @@ struct PDFReaderView : UIViewRepresentable {
     
     private func thumbnailView(pdfView: PDFView, viewSize: CGSize) {
         let thumbnailView = PDFThumbnailView(frame: CGRect(x: 0, y: viewSize.height - pdfThumbnailSize.height - 8, width: viewSize.width, height: pdfThumbnailSize.height))
+        thumbnailView.backgroundColor = UIColor.clear
         thumbnailView.thumbnailSize = pdfThumbnailSize
         thumbnailView.layoutMode = .horizontal
         thumbnailView.pdfView = pdfView
